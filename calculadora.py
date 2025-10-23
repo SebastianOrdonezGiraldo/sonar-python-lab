@@ -1,11 +1,13 @@
 from typing import Union
 
-
 def multiplicar_por_sumas(a: int, b: int) -> int:
     """
     Multiplica a * b usando sumas repetidas.
     Maneja correctamente los signos.
     """
+    if not isinstance(a, int) or not isinstance(b, int):
+        raise TypeError("Ambos valores deben ser números enteros.")
+
     # Normaliza el signo para evitar bucles negativos
     if b < 0:
         a, b = -a, -b
@@ -24,7 +26,6 @@ def factorial(n: Union[int, bool]) -> int:
       - 0! = 1
     Lanza ValueError si n es negativo y TypeError si no es entero.
     """
-    # Evita que bool pase como int (en Python, bool es subclase de int)
     if isinstance(n, bool):
         raise TypeError("El factorial requiere un entero, no un booleano")
 
@@ -41,8 +42,19 @@ def factorial(n: Union[int, bool]) -> int:
 
 
 if __name__ == "__main__":
-    # Ejemplos simples de ejecución manual
-    print("5 x 3 =", multiplicar_por_sumas(5, 3))     # 15
-    print("(-4) x 6 =", multiplicar_por_sumas(-4, 6)) # -24
-    print("0! =", factorial(0))                       # 1
-    print("5! =", factorial(5))                       # 120
+    try:
+        # Entradas del usuario
+        a = int(input("Ingrese el primer número (a): "))
+        b = int(input("Ingrese el segundo número (b): "))
+
+        print(f"{a} x {b} =", multiplicar_por_sumas(a, b))
+
+        n = int(input("Ingrese un número para calcular su factorial: "))
+        print(f"{n}! =", factorial(n))
+
+    except ValueError:
+        print("⚠️ Error: debe ingresar solo números enteros válidos.")
+    except TypeError as e:
+        print(f"⚠️ Error de tipo: {e}")
+    except Exception as e:
+        print(f"⚠️ Error inesperado: {e}")
